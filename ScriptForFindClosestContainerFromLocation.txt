@@ -5,13 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
   </head>
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
   <body>
     <div id="location"></div>
     <script>
@@ -38,16 +31,16 @@ return a;
         }
       }
 
-function FindClosestContainer(position) {
+function FindClosestContainer() {
 
-let CurrentPosX =  position.coords.latitude;
-let CurrentPosY = position.coords.longitude;
+let CurrentPosX =  45.6486925;
+let CurrentPosY = 21.6061873;
 
 let containerListOfCoord = {
 
     "Container1" : [45.732726,21.211009],
     "Container2" : [45.732599,21.265628],
-    "Container3" : [45.732599,21.265628],
+    "Container3" : [45.732599,21.265621],
 
 
 };
@@ -63,19 +56,22 @@ for (const Container in containerListOfCoord) {
     });
 }
 let HoldValues = [];
+    let newDic = {};
 
-for(let i = 0; i < NameOfContainerAndDistance.length; i++)
-{
+    for(let i = 0; i < NameOfContainerAndDistance.length; i++)
+    {
 
-    HoldValues.push(Object.values(NameOfContainerAndDistance[i])[1]);
-}
+        HoldValues.push(Object.values(NameOfContainerAndDistance[i])[1]);
+        newDic[Object.values(NameOfContainerAndDistance[i])[0]] = Object.values(NameOfContainerAndDistance[i])[1];
+    }
 
     let closestContainer = Math.min.apply(Math,HoldValues); //distance from user position to closest container
-    console.log(closestContainer);
 
+    console.log(containerListOfCoord[getKeyByValue(newDic , closestContainer)][0]) ; //Name of that container
+    console.log(containerListOfCoord[getKeyByValue(newDic , closestContainer)][1]) ;
 }
-      getLocation();
 
+      getLocation();
 
     </script>
   </body>
