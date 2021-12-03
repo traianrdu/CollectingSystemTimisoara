@@ -31,16 +31,16 @@ return a;
         }
       }
 
-function FindClosestContainer() {
+function FindClosestContainer(position) {
 
-let CurrentPosX =  45.6486925;
-let CurrentPosY = 21.6061873;
+let CurrentPosX = position.coords.latitude;
+let CurrentPosY = position.coords.longitude;
 
 let containerListOfCoord = {
 
-    "Container1" : [45.732726,21.211009],
-    "Container2" : [45.732599,21.265628],
-    "Container3" : [45.732599,21.265621],
+   // "Container1" : [45.732726,21.211009],
+    //"Container2" : [45.732599,21.265628],
+   // "Container3" : [45.732599,21.265621],
 
 
 };
@@ -73,6 +73,45 @@ let HoldValues = [];
 
       getLocation();
 
+    </script>
+  </body>
+</html>
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="location"></div>
+    <script>
+      var div  = document.getElementById("location");
+      function getLocation() {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(showPosition, showError);
+        } else {
+          div.innerHTML = "The Browser Does not Support Geolocation";
+        }
+      }
+
+      function showPosition(position) {
+        div.innerHTML = "Latitude: " + position.coords.latitude + "<br>Longitude: " + position.coords.longitude;
+      }
+
+      function showError(error) {
+        if(error.PERMISSION_DENIED){
+            div.innerHTML = "The User have denied the request for Geolocation.";
+        }
+      }
+      getLocation();
     </script>
   </body>
 </html>
