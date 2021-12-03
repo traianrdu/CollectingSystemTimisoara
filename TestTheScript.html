@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="location"></div>
+    <script>
+    function calculateDistance( ContainerPosX, ContainerPosY, CurrentPosX1,  CurrentPosY1){
+
+
+let a = ((ContainerPosX-CurrentPosX1)*(ContainerPosX-CurrentPosX1) + (ContainerPosY-CurrentPosY1)*(ContainerPosY-CurrentPosY1))*(1/2);
+
+return a;
+
+}
+
+    function getKeyByValue(object, value) {
+  return Object.keys(object).find(key => object[key] === value);
+}
+
+      let div  = document.getElementById("location");
+
+      function getLocation() {
+        if (navigator.geolocation) {
+          navigator.geolocation.watchPosition(FindClosestContainer);
+        } else {
+          div.innerHTML = "The Browser does not support GeoLocation";
+        }
+      }
+
+function FindClosestContainer() {
+
+let CurrentPosX =  45.6486925;
+let CurrentPosY = 21.6061873;
+
+let containerListOfCoord = {
+
+    "Container1" : [45.732726,21.211009],
+    "Container2" : [45.732599,21.265628],
+    "Container3" : [45.732599,21.265628],
+
+
+};
+
+let NameOfContainerAndDistance = [];
+
+for (const Container in containerListOfCoord) {
+
+
+    NameOfContainerAndDistance.push({
+        key:   Container,
+        value: calculateDistance(containerListOfCoord[Container][0] ,  containerListOfCoord[Container][1] , CurrentPosX ,CurrentPosY),
+    });
+}
+let HoldValues = [];
+
+for(let i = 0; i < NameOfContainerAndDistance.length; i++)
+{
+
+    HoldValues.push(Object.values(NameOfContainerAndDistance[i])[1]);
+}
+
+    let closestContainer = Math.min.apply(Math,HoldValues); //distance from user position to closest container
+    console.log(closestContainer);
+
+}
+
+
+      getLocation();
+
+      
+
+
+    </script>
+  </body>
+</html>
