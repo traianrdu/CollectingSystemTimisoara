@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %} Sign up {% endblock %}
+
+{% block body %}
+
+    <div class="signUpForum">
+        <form action="#" method="POST">
+            <input type="text"  name="username" placeholder="Username">
+            <input type="text"  name="mail" placeholder="Mail">
+            <input type="password" name="password" placeholder="Password">
+            <input type="password" name="retypedPassword" placeholder="Re-type your password">
+            <button class="submit_button"><input type="submit" class="submit" value="Send"></button>
+        </form> 
+    </div>
+
+    {% if get_flashed_messages()%}
+    <h1>{{ get_flashed_messages() }}</h1>
+    {% endif %}
+    
+{% endblock %}
