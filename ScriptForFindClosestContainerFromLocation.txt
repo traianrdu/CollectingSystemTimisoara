@@ -38,10 +38,10 @@ return a;
         }
       }
 
-function FindClosestContainer() {
+function FindClosestContainer(position) {
 
-let CurrentPosX =  45.6486925;
-let CurrentPosY = 21.6061873;
+let CurrentPosX =  position.coords.latitude;
+let CurrentPosY = position.coords.longitude;
 
 let containerListOfCoord = {
 
@@ -74,11 +74,7 @@ for(let i = 0; i < NameOfContainerAndDistance.length; i++)
     console.log(closestContainer);
 
 }
-
-
       getLocation();
-
-      
 
 
     </script>
