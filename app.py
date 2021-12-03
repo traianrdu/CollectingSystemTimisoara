@@ -98,7 +98,7 @@ def signout():
         return redirect(url_for("home"))
 
 
-@app.route("/closest", methods=['POST', 'GET'])
+@app.route("/get_collecting_points", methods=['POST', 'GET'])
 def closest_location():
     json_manager = JsonManager(
         'https://data.primariatm.ro/api/3/action/datastore_search?resource_id=d0134630-84d9-40b8-9bcb-dfdc926d66ab'
