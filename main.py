@@ -9,7 +9,7 @@ from manager.JsonManager import JsonManager
 from manager.db import db_init, db
 from model.CollectingPoints import CollectingPoints
 from model.JsonDump import JsonDump
-from model.models import Users , Contact
+from model.models import Users, Contact
 from datetime import timedelta
 
 load_dotenv()
@@ -22,8 +22,9 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db_init(app)
 
 
-@app.route("/", methods=['POST','GET'])
+@app.route("/", methods=['POST', 'GET'])
 def home():
+    json_data = get_points()
     # User session for feed back, the 0 and 1 will be replaced
     if "userInSession" in session:
         1
@@ -36,22 +37,19 @@ def home():
         subject = request.form['subject']
         message = request.form['message']
 
-        
-       
         saveInDB = Contact(
-            name = name,
-            mail = mail,
-            subject = subject,
-            message = message
-        )                
+            name=name,
+            mail=mail,
+            subject=subject,
+            message=message
+        )
         db.session.add(saveInDB)
         db.session.commit()
 
+    return render_template("home.html", env_key=os.getenv("GOOGLE_CLOUD_KEY"), json_data=json_data)
 
-    
-    return render_template("home.html", env_key=os.getenv("GOOGLE_CLOUD_KEY"))
 
-@app.route("/contact", methods=['POST','GET'])
+@app.route("/contact", methods=['POST', 'GET'])
 def contact():
     if request.method == "POST":
         name = request.form['name']
@@ -60,11 +58,11 @@ def contact():
         message = request.form['message']
 
         saveInDB = Contact(
-            name = name,
-            mail = mail,
-            subject = subject,
-            message = message
-        )                
+            name=name,
+            mail=mail,
+            subject=subject,
+            message=message
+        )
         db.session.add(saveInDB)
         db.session.commit()
     return render_template("contact.html")
@@ -73,6 +71,7 @@ def contact():
 @app.route("/materials")
 def materials():
     return render_template("materials.html")
+
 
 @app.route("/signup", methods=['POST', 'GET'])
 def signup():
@@ -146,7 +145,7 @@ def signout():
 
 
 @app.route("/get_collecting_points", methods=['POST', 'GET'])
-def closest_location():
+def get_points():
     json_manager = JsonManager(
         'https://data.primariatm.ro/api/3/action/datastore_search?resource_id=d0134630-84d9-40b8-9bcb-dfdc926d66ab'
         '&limit=500')
@@ -161,7 +160,7 @@ def closest_location():
 
 @app.route("/testing", methods=['POST', 'GET'])
 def test():
-    json_data = closest_location()
+    json_data = get_points()
     return render_template("testing.html", json_data=json_data)
 
 
