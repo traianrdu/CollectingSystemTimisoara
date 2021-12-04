@@ -144,7 +144,7 @@ def signout():
         return render_template("home.html")
 
 
-@app.route("/get_collecting_points", methods=['POST', 'GET'])
+@app.route("/get_points", methods=['POST', 'GET'])
 def get_points():
     json_manager = JsonManager(
         'https://data.primariatm.ro/api/3/action/datastore_search?resource_id=d0134630-84d9-40b8-9bcb-dfdc926d66ab'
@@ -154,14 +154,10 @@ def get_points():
     for item in jd.return_records():
         cp = CollectingPoints(item["_id"], item["id"], item["tip colectare"], item['adresa'], item['companie'],
                               item['website'], item['latitudine'], item['longitudine'])
-        collecting_list.append(json.dumps(cp.__dict__))
+        cp_string = json.dumps(cp.__dict__)
+        cp_json = json.loads(cp_string)
+        collecting_list.append(cp_json)
     return json.dumps(collecting_list)
-
-
-@app.route("/testing", methods=['POST', 'GET'])
-def test():
-    json_data = get_points()
-    return render_template("testing.html", json_data=json_data)
 
 
 if __name__ == "__main__":
