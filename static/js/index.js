@@ -1,13 +1,26 @@
 let div  = document.getElementById("map");
+var currentLat = 45.713187;
+var currentLong = 21.27952;
+var counter = 0;
+
 
 function initMap() {
-    getLocation(div)
+    getLocation(div);
+    let containerMap = JsonParser();
+    var delayInMilliseconds = 1000; //1 second
+
+    setTimeout(function() {
+        makeMap(containerMap);
+    }, delayInMilliseconds);
+}
+
+function makeMap(containerMap) {
     const map = new google.maps.Map(document.getElementById("map"), {
-      zoom: 11,
-      center: { lat: 45.713187, lng: 21.27952 },
+      zoom: 12,
+      center: { lat: currentLat, lng: currentLong },
     });
 
-    setMarkers(map);
+    setMarkers(map, containerMap);
 }
 
 
@@ -16,23 +29,42 @@ const containers = [
     ["punct2", 45.713187, 21.27952, "mm_20_brown.png"],
   ];
 
-function setMarkers(map) {
+
+
+function setMarkers(map, containerMap) {
 
     const windows = [];
-
-    for (let i = 0; i < containers.length; i++) {
-        const container = containers[i];
-
+    console.log("abbc");
+    for (const cont in containerMap) {
+        console.log(containerMap[cont][1]);
         const marker = new google.maps.Marker({
-            position: { lat: container[1], lng: container[2] },
+            position: { lat: containerMap[cont][1], lng: containerMap[cont][0] },
             map,
             icon: {
-                url: "http://labs.google.com/ridefinder/images/" +  container[3]
+                url: "http://labs.google.com/ridefinder/images/" +  "mm_20_green.png"
             },
-            title: container[0],
+            title: containerMap[cont][3],
             });
+        console.log(marker);
         windows.push(marker);
     }
+
+    /*
+    for (let i = 0; i < counter; i++) {
+        const container = containerMap[i];
+
+        console.log("abbc");
+
+        const marker = new google.maps.Marker({
+            position: { lat: container[0], lng: container[1] },
+            map,
+            icon: {
+                url: "http://labs.google.com/ridefinder/images/" +  "mm_20_green.png"
+            },
+            title: container[3],
+            });
+        windows.push(marker);
+    }*/
 
     for(let i=0;i<windows.length;i++)
       {
@@ -81,6 +113,9 @@ function FindClosestContainer(position) {
     let CurrentPosX = position.coords.latitude;
     let CurrentPosY = position.coords.longitude;
 
+    currentLat = CurrentPosX;
+    currentLong = CurrentPosY;
+
     let containerListOfCoord = JsonParser();
 
     //----------------------------
@@ -119,14 +154,18 @@ function JsonParser() {
     // ------------Here add the names and coordonates--------------
     };
 
+    counter = 0;
     for(var item in parsedJson){
          let containerTipAndId = parsedJson[item].tip_colectare +'_id'+ parsedJson[item].id;
          let longitudine = parsedJson[item].longitudine;
          let latitudine = parsedJson[item].latitudine;
-         containerList[containerTipAndId] = [longitudine,latitudine];
+         let tip = parsedJson[item].tip_colectare;
+         let adresa = parsedJson[item].adresa;
+         let companie = parsedJson[item].companie;
+         let website = parsedJson[item].website;
+         containerList[containerTipAndId] = [longitudine, latitudine, tip, adresa, companie, website];
+         counter ++;
     }
-
-    console.log(containerList);
 
     return containerList;
 }
