@@ -40,7 +40,34 @@
 
     <h3 style="margin-top:5%">Which one is the nearest?</h3>
     <div>
+    <div id="EMPTY">
+        <p>Select on the map if a container is empty.</p>
+        <p id="emptyContainerPres">none</p>
+        <p style="display: none;" id="emptyContainer"></p>
 
+        <button onclick="empty('percent1')" > <p id="percent1">50%</p> </button>
+        <button onclick="empty('percent2')" > <p id="percent2">70%</p> </button>
+        <button onclick="empty('percent3')" > <p id="percent3">100%</p> </button>
+    </div>
+
+    <div id="FEEDBACK" style="display: none;">
+        <p>Thank you for your feedback!</p>
+    </div>
+
+    <script>
+        function empty(val)
+        {
+            x = document.getElementById("emptyContainer").innerHTML
+            y = document.getElementById(val).innerHTML
+            console.log(x + " " + y);
+            $.post("/emptyCont", {"name":x, "percent":y})
+
+            document.getElementById("EMPTY").style = "display:none;"
+            document.getElementById("FEEDBACK").style = "display:block;"
+
+
+        }
+    </script>
     </div>
     <h3 style="margin-top:5%">Empty</h3>
 

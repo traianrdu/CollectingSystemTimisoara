@@ -19,6 +19,15 @@ h3{
   color:#2d357d
 }
 
+button{
+  border: none;
+  width:70px;
+  height:30px;
+}
+
+button p{
+  margin:auto;
+}
 .introduction{
   margin-top:2%;
   width:100%;

@@ -9,7 +9,7 @@ from manager.JsonManager import JsonManager
 from manager.db import db_init, db
 from model.CollectingPoints import CollectingPoints
 from model.JsonDump import JsonDump
-from model.models import Users, Contact
+from model.models import Users, Contact, Container
 from datetime import timedelta
 
 load_dotenv()
@@ -142,6 +142,36 @@ def signout():
         return redirect(url_for("home"))
     else:
         return render_template("home.html")
+
+
+@app.route("/emptyCont" , methods=['POST','GET'])
+def empty():
+    if 'userInSession' in session:
+        if request.method == 'POST':
+            nameOfEmptyCan = request.form['name']
+            percentOfCan = request.form['percent']
+            percentOfCan ="perc_" + percentOfCan[:len(percentOfCan)-1]
+
+            selectContainerFromDB =  Container.query.filter_by(name=nameOfEmptyCan).first()
+
+            percents = ['perc_50' , 'perc_70' , 'perc_100']
+
+            for i in range(len(percents)):
+                if percents[i] == percentOfCan:
+                    x = i
+                    break
+            if i == 0:
+                selectContainerFromDB.perc_50 = selectContainerFromDB.perc_50 + 1
+                db.session.commit()
+            elif i == 1:
+                selectContainerFromDB.perc_70 = selectContainerFromDB.perc_70 + 1
+                db.session.commit()
+            elif i == 1:
+                selectContainerFromDB.perc_100 = selectContainerFromDB.perc_100 + 1
+                db.session.commit()
+
+            print(nameOfEmptyCan + " " + percentOfCan)
+    return render_template("home.html")
 
 
 @app.route("/get_points", methods=['POST', 'GET'])
