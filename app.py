@@ -1,5 +1,6 @@
 import json
 
+from dotenv import load_dotenv
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 import bcrypt
 
@@ -10,6 +11,7 @@ from model.JsonDump import JsonDump
 from model.models import Users
 from datetime import timedelta
 
+load_dotenv()
 app = Flask(__name__)
 
 app.permanent_session_lifetime = timedelta(days=5)
@@ -26,7 +28,7 @@ def home():
         text = "Hello " + session['userInSession']
     else:
         text = "Hello"
-    return render_template("home.html", text=text)
+    return render_template("home.html", text=text, env_key=os.getenv("GOOGLE_CLOUD_KEY"))
 
 
 @app.route("/signup", methods=['POST', 'GET'])
