@@ -24,7 +24,7 @@ db_init(app)
 
 @app.route("/", methods=['POST', 'GET'])
 def home():
-    json_data = get_points()
+
     # User session for feed back, the 0 and 1 will be replaced
     if "userInSession" in session:
         1
@@ -46,7 +46,7 @@ def home():
         db.session.add(saveInDB)
         db.session.commit()
 
-    return render_template("home.html", env_key=os.getenv("GOOGLE_CLOUD_KEY"), json_data=json_data)
+    return render_template("home.html", env_key=os.getenv("GOOGLE_CLOUD_KEY"))
 
 
 @app.route("/contact", methods=['POST', 'GET'])
@@ -142,26 +142,6 @@ def signout():
         return redirect(url_for("home"))
     else:
         return render_template("home.html")
-
-
-@app.route("/get_collecting_points", methods=['POST', 'GET'])
-def get_points():
-    json_manager = JsonManager(
-        'https://data.primariatm.ro/api/3/action/datastore_search?resource_id=d0134630-84d9-40b8-9bcb-dfdc926d66ab'
-        '&limit=500')
-    jd = JsonDump.from_json(json_manager.connect())
-    collecting_list = []
-    for item in jd.return_records():
-        cp = CollectingPoints(item["_id"], item["id"], item["tip colectare"], item['adresa'], item['companie'],
-                              item['website'], item['latitudine'], item['longitudine'])
-        collecting_list.append(json.dumps(cp.__dict__))
-    return json.dumps(collecting_list)
-
-
-@app.route("/testing", methods=['POST', 'GET'])
-def test():
-    json_data = get_points()
-    return render_template("testing.html", json_data=json_data)
 
 
 if __name__ == "__main__":
