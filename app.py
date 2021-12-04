@@ -9,7 +9,7 @@ from manager.JsonManager import JsonManager
 from manager.db import db_init, db
 from model.CollectingPoints import CollectingPoints
 from model.JsonDump import JsonDump
-from model.models import Users
+from model.models import Users , Contact
 from datetime import timedelta
 
 load_dotenv()
@@ -22,15 +22,57 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db_init(app)
 
 
-@app.route("/")
+@app.route("/", methods=['POST','GET'])
 def home():
-    text = ""
+    # User session for feed back, the 0 and 1 will be replaced
     if "userInSession" in session:
-        text = "Hello " + session['userInSession']
+        1
     else:
-        text = "Hello"
-    return render_template("home.html", text=text, env_key=os.getenv("GOOGLE_CLOUD_KEY"))
+        0
 
+    if request.method == "POST":
+        name = request.form['name']
+        mail = request.form['email']
+        subject = request.form['subject']
+        message = request.form['message']
+
+        
+       
+        saveInDB = Contact(
+            name = name,
+            mail = mail,
+            subject = subject,
+            message = message
+        )                
+        db.session.add(saveInDB)
+        db.session.commit()
+
+
+    
+    return render_template("home.html", env_key=os.getenv("GOOGLE_CLOUD_KEY"))
+
+@app.route("/contact", methods=['POST','GET'])
+def contact():
+    if request.method == "POST":
+        name = request.form['name']
+        mail = request.form['email']
+        subject = request.form['subject']
+        message = request.form['message']
+
+        saveInDB = Contact(
+            name = name,
+            mail = mail,
+            subject = subject,
+            message = message
+        )                
+        db.session.add(saveInDB)
+        db.session.commit()
+    return render_template("contact.html")
+
+
+@app.route("/materials")
+def materials():
+    return render_template("materials.html")
 
 @app.route("/signup", methods=['POST', 'GET'])
 def signup():
@@ -99,6 +141,8 @@ def signout():
     if "userInSession" in session:
         session.pop("userInSession", None)
         return redirect(url_for("home"))
+    else:
+        return render_template("home.html")
 
 
 @app.route("/get_collecting_points", methods=['POST', 'GET'])
