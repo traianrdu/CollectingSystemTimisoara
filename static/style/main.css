@@ -1,5 +1,8 @@
 #map {
-    height: 50%;
+  margin-top: 5%;
+  height: 70%;
+  width:80%;
+  margin: auto;
 }
 
 html,
@@ -7,4 +10,60 @@ body {
   height: 100%;
   margin: 0;
   padding: 0;
+  text-align: center;
+}
+
+h3{
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', monospace;
+  font-size: 25px;
+  color:#2d357d
+}
+
+.introduction{
+  margin-top:2%;
+  width:100%;
+}
+.title{
+  display: block;
+}
+.titleH2{
+  font-size: 35px;
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', monospace;
+  color:#2d357d
+  }
+.recyle{
+  height:300px;
+  width:300px;
+}
+
+.navbar{
+  display: inline-flex;
+  gap: 20px;
+}
+
+.item a{
+  color:#494e7a;
+  text-decoration: none;
+}
+.moto{
+  margin-top:10%;
+}
+.moto h1{
+  font-size: 60px;
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', monospace;
+  color:#2d357d;
+
+}
+
+.bottle{
+  background-image: url("photos/bottle.jpg");
+  background-position:bottom;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  text-align: center;
+
+  height: 50vh;
+  width:85%;
+  margin:auto;
 }
