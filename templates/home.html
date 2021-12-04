@@ -3,18 +3,46 @@
 {% block title %}Home{% endblock %}
 
 {% block body %}
-    <div class="navbar">
+    <!-- <div class="navbar">
         <div class="item"><a href="signup">Sign up</a></div>
         <div class="item"><a href="signin">Sign in</a></div>
         <div class="item"><a href="signout">Sign out</a></div>
 
+    </div> -->
+
+    <div class="introduction">
+        <div class="title">
+            <img src="{{url_for('static', filename='style/photos/recycle.webp')}}" alt="Recycle image" class="recycle">
+            <h2 class="titleH2">Collecting System Timisoara</h2>
+        </div>
+
+        <div class="navbar">
+            <div class="item"><a href="signin">Sign in</a></div>
+            <div class="item"><a href="#">Materials Accepted</a></div>
+            <div class="item"><a href="#">Contact</a></div>
+
+        </div>
     </div>
 
-    <p>{{text}}</p>
+    <div class="moto">
+        <h1>Recycle the present
+            <br>save the future</h1>
+        <section class="bottle">
+            <h2 style="color: transparent;">UnderDogzz</h2>
+        </section>
+    </div>
 
+    <h3 style="margin-top:5%">Collecting Points</h3>
     <div id="map"></div>
+    
     <script      
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP-cMf7kHHosBw0D6DMx86lfJXdY54LtY&callback=initMap&v=weekly"
+        src="https://maps.googleapis.com/maps/api/js?key=INSERT_KEY&callback=initMap&v=weekly"
         async>
     </script>
+
+    <h3 style="margin-top:5%">Which one is the nearest?</h3>
+    <div>
+
+    </div>
+    <h3 style="margin-top:5%">Empty</h3>
 {% endblock %}
