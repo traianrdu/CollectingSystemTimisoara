@@ -162,13 +162,13 @@ def empty():
                 if percents[i] == percentOfCan:
                     x = i
                     break
-            if i == 0:
+            if x == 0:
                 selectContainerFromDB.perc_50 = selectContainerFromDB.perc_50 + 1
                 db.session.commit()
-            elif i == 1:
+            elif x == 1:
                 selectContainerFromDB.perc_70 = selectContainerFromDB.perc_70 + 1
                 db.session.commit()
-            elif i == 1:
+            elif x == 2:
                 selectContainerFromDB.perc_100 = selectContainerFromDB.perc_100 + 1
                 db.session.commit()
 
@@ -176,12 +176,22 @@ def empty():
             print(nameOfEmptyCan + " " + percentOfCan)
     return render_template("home.html")
 
-# @app.route("/cityhall")
-# def cityhall():
-#     session["staff"] ="staff"
-#     if "staff" in session:
+@app.route("/cityhall")
+def cityhall():
+    session["staff"] ="staff"
+    if "staff" in session:
+        key = 0
+        allAt50 = {}
+        fromDB = Container.query.with_entities(Container.name, Container.perc_50).all()
+        for i in range(len(fromDB)):
+            if int(fromDB[i][1]) >= 10:
+                selectContainer = Container.query.filter_by(name=fromDB[i][0]).first()
+                allAt50[key] = [selectContainer.name,selectContainer.latit,selectContainer.long] 
+                print(allAt50[key])
+                key+=1
+               
 
-#         return render_template("cityhallmap.html")
+        return render_template("cityhallmap.html",env_key=os.getenv("GOOGLE_CLOUD_KEY"), allAt50=allAt50, numberOf50=key)
 
 @app.route("/get_collecting_points", methods=['POST', 'GET'])
 def closest_location():

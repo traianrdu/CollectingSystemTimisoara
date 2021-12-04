@@ -2,8 +2,28 @@
 <html>
     <head>
         <title>Cityhall</title>
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+        <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='style/cityhall.css')}}" />
+        
     </head>
     <body>
-        
+
+        <div id="map"></div>
+
+        <script
+            src="https://maps.googleapis.com/maps/api/js?key={{env_key}}&callback=initMap&v=weekly"
+            async>
+        </script>
+
+        {% for i in range(numberOf50) %}
+            <p id="name{{i}}">{{allAt50[i][0]}}</p>
+            <p id="lat{{i}}">{{allAt50[i][1]}}</p>
+            <p id="long{{i}}">{{allAt50[i][2]}}</p>
+            {% if i == numberOf50 - 1%}
+                <p id="nr">{{i+1}}</p>
+            {% endif %}
+        {% endfor %}
+
+        <script src="{{url_for('static', filename='js/cityhall.js')}}"></script>
     </body>
 </html>

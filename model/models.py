@@ -21,6 +21,6 @@ class Container(db.Model):
     perc_50 = db.Column(db.Integer, nullable = False)
     perc_70 = db.Column(db.Integer, nullable = False) 
     perc_100 = db.Column(db.Integer, nullable = False) 
-    lat = db.Column(db.Integer, nullable = False) 
+    latit = db.Column(db.Integer, nullable = False) 
     long = db.Column(db.Integer, nullable = False) 
 
