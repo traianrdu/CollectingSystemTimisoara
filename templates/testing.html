@@ -1,21 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<script>
-      function getCoordinates() {
-        const userAction = async () => {
-          const response = await fetch('http://127.0.0.1:5000/get_collecting_points'); // pentru test
-          //const response = await fetch('https://domain-name/get_collecting_points');
-          const myJson = await response.json();
-          console.log(myJson)
-        }
-        userAction()
-      }
-</script>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="location"></div>
+    <script>
+    function calculateDistance( ContainerPosX, ContainerPosY, CurrentPosX1,  CurrentPosY1){
 
-</body>
+
+let a = ((ContainerPosX-CurrentPosX1)*(ContainerPosX-CurrentPosX1) + (ContainerPosY-CurrentPosY1)*(ContainerPosY-CurrentPosY1))*(1/2);
+
+return a;
+
+}
+
+    function getKeyByValue(object, value) {
+  return Object.keys(object).find(key => object[key] === value);
+}
+
+      let div  = document.getElementById("location");
+
+      function getLocation() {
+        if (navigator.geolocation) {
+          navigator.geolocation.watchPosition(FindClosestContainer);
+        } else {
+          div.innerHTML = "The Browser does not support GeoLocation";
+        }
+      }
+
+function FindClosestContainer(position) {
+
+let CurrentPosX = position.coords.latitude;
+let CurrentPosY = position.coords.longitude;
+
+let containerListOfCoord = {
+
+// ------------Here add the names and coordonates--------------
+
+
+};
+
+//Here is the Json parser algorithm for aquiring the data for containerListOfCoord
+
+//----------------------------
+
+let JsonData ="{{ json_data }}";
+
+for(let i = 0; i < JsonData.length; i++)
+{
+    let containerTipAndId = JSON.parse(JsonData[i]).tip_colectare +'_id'+ JSON.parse(JsonData[i]).id;
+    let longitudine = JSON.parse(JsonData[i]).longitudine;
+    let latitudine = JSON.parse(JsonData[i]).latitudine;
+
+    containerListOfCoord[containerTipAndId] = [longitudine,latitudine];
+
+}
+
+//----------------------------
+
+
+let NameOfContainerAndDistance = [];
+
+for (const Container in containerListOfCoord) {
+
+
+    NameOfContainerAndDistance.push({
+        key:   Container,
+        value: calculateDistance(containerListOfCoord[Container][0] ,  containerListOfCoord[Container][1] , CurrentPosX ,CurrentPosY),
+    });
+}
+let HoldValues = [];
+    let newDic = {};
+
+    for(let i = 0; i < NameOfContainerAndDistance.length; i++)
+    {
+
+        HoldValues.push(Object.values(NameOfContainerAndDistance[i])[1]);
+        newDic[Object.values(NameOfContainerAndDistance[i])[0]] = Object.values(NameOfContainerAndDistance[i])[1];
+    }
+
+    let closestContainer = Math.min.apply(Math,HoldValues); //distance from user position to closest container
+
+    console.log(containerListOfCoord[getKeyByValue(newDic , closestContainer)][0]) ; //Name of that container
+    console.log(containerListOfCoord[getKeyByValue(newDic , closestContainer)][1]) ;
+}
+
+      getLocation();
+
+    </script>
+  </body>
 </html>

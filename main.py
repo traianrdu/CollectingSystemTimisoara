@@ -159,5 +159,11 @@ def closest_location():
     return json.dumps(collecting_list)
 
 
+@app.route("/testing", methods=['POST', 'GET'])
+def test():
+    json_data = closest_location()
+    return render_template("testing.html", json_data=json_data)
+
+
 if __name__ == "__main__":
     app.run(debug=True)
