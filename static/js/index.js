@@ -123,31 +123,26 @@ function FindClosestContainer(position) {
     }
 
     let newDic = {};
-    let min = Object.values(NameOfContainerAndDistance[0])[1];
+    let min1 = Object.values(NameOfContainerAndDistance[0])[1];
+    let min2 = Object.values(NameOfContainerAndDistance[0])[1];
+    let min3 = Object.values(NameOfContainerAndDistance[0])[1];
     newDic[Object.values(NameOfContainerAndDistance[0])[0]] = Object.values(NameOfContainerAndDistance[0])[1];
-    for (var i=1; i < NameOfContainerAndDistance.length; i++) {
+    for (var i=3; i < NameOfContainerAndDistance.length; i++) {
         newDic[Object.values(NameOfContainerAndDistance[i])[0]] = Object.values(NameOfContainerAndDistance[i])[1];
-        if (Object.values(NameOfContainerAndDistance[i])[1] < min)
-            min = Object.values(NameOfContainerAndDistance[i])[1];
+        if (Object.values(NameOfContainerAndDistance[i])[1] < min1) {
+            min3 = min2;
+            min2 = min1;
+            min1 = Object.values(NameOfContainerAndDistance[i])[1];
+        }
     }
-    /*
-    let HoldValues = [];
-    let newDic = {};
-    for(let i = 0; i < NameOfContainerAndDistance.length; i++)
-    {
-        HoldValues.push(Object.values(NameOfContainerAndDistance[i])[1]);
-        newDic[Object.values(NameOfContainerAndDistance[i])[0]] = Object.values(NameOfContainerAndDistance[i])[1];
-    }*/
 
-    //let closestContainer = Math.min.apply(Math,HoldValues); //distance from user position to closest container
-
-    console.log(containerListOfCoord[getKeyByValue(newDic , min)][0]) ; //Name of that container
-    console.log(containerListOfCoord[getKeyByValue(newDic , min)][1]) ;
-    console.log(containerListOfCoord[getKeyByValue(newDic , min)][2]) ;
-    console.log(min);
-    document.getElementById("nearest1").innerHTML = containerListOfCoord[getKeyByValue(newDic , min)][3];
-    document.getElementById("nearest2").innerHTML = "Aleea Ghirodei <-> Spartacus";
-    document.getElementById("nearest3").innerHTML = "Ștrandului <-> Calea Dorobanților";
+    console.log(containerListOfCoord[getKeyByValue(newDic , min1)][0]) ; //Name of that container
+    console.log(containerListOfCoord[getKeyByValue(newDic , min1)][1]) ;
+    console.log(containerListOfCoord[getKeyByValue(newDic , min1)][2]) ;
+    console.log(min1);
+    document.getElementById("nearest1").innerHTML = containerListOfCoord[getKeyByValue(newDic , min1)][3];
+    document.getElementById("nearest2").innerHTML = containerListOfCoord[getKeyByValue(newDic , min2)][3];
+    document.getElementById("nearest3").innerHTML = containerListOfCoord[getKeyByValue(newDic , min3)][3];
 
 }
 
