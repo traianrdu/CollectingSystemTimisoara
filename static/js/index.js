@@ -133,6 +133,11 @@ function FindClosestContainer(position) {
             min3 = min2;
             min2 = min1;
             min1 = Object.values(NameOfContainerAndDistance[i])[1];
+        } else if (Object.values(NameOfContainerAndDistance[i])[1] < min2) {
+            min3 = min2;
+            min2 = Object.values(NameOfContainerAndDistance[i])[1];
+        } else if (Object.values(NameOfContainerAndDistance[i])[1] < min3) {
+            min3 = Object.values(NameOfContainerAndDistance[i])[1];
         }
     }
 
