@@ -31,11 +31,12 @@ def home():
     json_data = get_points()
     # User session for feed back, the 0 and 1 will be replaced
     if "userInSession" in session:
-        style="block"
+        style = "block"
         styleM = "none"
     else:
-        style="none"
-        styleM="block"
+        style = "none"
+        styleM = "block"
+
     if request.method == "POST":
         name = request.form['name']
         mail = request.form['email']
@@ -154,7 +155,6 @@ def signout():
 def empty():
     style = 1
     if 'userInSession' in session:
-        
         if request.method == 'POST':
             nameOfEmptyCan = request.form['name']
             percentOfCan = request.form['percent']
@@ -210,8 +210,8 @@ def empty():
                     db.session.commit()
                 elif x == 2:
                     selectContainerFromDB.perc_100 = selectContainerFromDB.perc_100 + 1
-                    db.session.commit() 
-        
+                    db.session.commit()
+
     return render_template("home.html")
 
 
