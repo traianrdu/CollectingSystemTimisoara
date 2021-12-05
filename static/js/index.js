@@ -2,6 +2,7 @@ let div  = document.getElementById("map");
 var currentLat = 45.713187;
 var currentLong = 21.27952;
 var counter = 0;
+var windows = [];
 
 function initMap() {
     getLocation(div);
@@ -24,7 +25,7 @@ function makeMap(containerMap) {
 
 function setMarkers(map, containerMap) {
 
-    const windows = [];
+    windows = [];
     let marker = new google.maps.Marker({
             position: { lat: currentLat, lng: currentLong },
             map,

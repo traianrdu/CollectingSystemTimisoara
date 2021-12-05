@@ -41,12 +41,15 @@
     <h3 style="margin-top:5%">Which one is the nearest?</h3>
     <div id="nearest">
         <p>Those are the nearest containers:</p>
-        <p id="nearestButtonPres">none</p>
+        <p id="nearestButtonPres"></p>
         <p style="display: none;" id="nearestContainer"></p>
 
-        <button style="width:250px;height:50px;" onclick="nearest('nearest1')" > <p id="nearest1"></p> </button>
-        <button style="width:250px;height:50px;" onclick="nearest('nearest2')" > <p id="nearest2"></p> </button>
-        <button style="width:250px;height:50px;" onclick="nearest('nearest3')" > <p id="nearest3"></p> </button>
+        <button style="width:250px;height:70px;" class="button-near" onclick="nearest('nearest1')" > <p id="nearest1"></p> </button>
+        <button style="width:250px;height:70px;" class="button-near" onclick="nearest('nearest2')" > <p id="nearest2"></p> </button>
+        <button style="width:250px;height:70px;" class="button-near" onclick="nearest('nearest3')" > <p id="nearest3"></p> </button>
+    </div>
+    <div id="javatohtml" style="display: none">
+
     </div>
 
     <div>
@@ -65,8 +68,34 @@
     </div>
 
     <script>
-        function nearest() {
+        /*function nearest() {
 
+        }*/
+
+        function nearest(val) {
+            for(let i=0;i < windows.length;i++) {
+                const point = windows[i];
+
+                document.getElementById("javatohtml").innerHTML = point.title;
+
+                if (document.getElementById("javatohtml").innerHTML === document.getElementById(val).innerHTML) {
+                    console.log(point.title)
+
+                    const infowindow = new google.maps.InfoWindow({
+                        content: point.title,
+                    });
+
+                    infowindow.open({
+                        anchor: point,
+                        map,
+                        shouldFocus: false,
+                    });
+
+                    document.getElementById("emptyContainerPres").innerHTML = point.title + " is empty: "
+                    document.getElementById("emptyContainer").innerHTML = point.title
+
+                }
+            }
         }
 
         function empty(val)
