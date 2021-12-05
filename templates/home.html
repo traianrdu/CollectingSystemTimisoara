@@ -39,6 +39,16 @@
     </script>
 
     <h3 style="margin-top:5%">Which one is the nearest?</h3>
+    <div id="nearest">
+        <p>Those are the nearest containers:</p>
+        <p id="nearestButtonPres">none</p>
+        <p style="display: none;" id="nearestContainer"></p>
+
+        <button style="width:250px;height:50px;" onclick="nearest('nearest1')" > <p id="nearest1"></p> </button>
+        <button style="width:250px;height:50px;" onclick="nearest('nearest2')" > <p id="nearest2"></p> </button>
+        <button style="width:250px;height:50px;" onclick="nearest('nearest3')" > <p id="nearest3"></p> </button>
+    </div>
+
     <div>
     <div id="EMPTY">
         <p>Select on the map if a container is empty.</p>
@@ -55,6 +65,10 @@
     </div>
 
     <script>
+        function nearest() {
+
+        }
+
         function empty(val)
         {
             x = document.getElementById("emptyContainer").innerHTML

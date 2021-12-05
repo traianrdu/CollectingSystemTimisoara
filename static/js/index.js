@@ -25,9 +25,7 @@ function makeMap(containerMap) {
 function setMarkers(map, containerMap) {
 
     const windows = [];
-    console.log("abbc");
     for (const cont in containerMap) {
-        console.log(containerMap[cont][1]);
         var simple_url = "http://labs.google.com/ridefinder/images/" +  "mm_20_green.png";
         if (containerMap[cont][2] === "sticlă")
             simple_url = "http://labs.google.com/ridefinder/images/" +  "mm_20_green.png";
@@ -50,7 +48,6 @@ function setMarkers(map, containerMap) {
             },
             title: containerMap[cont][3],
             });
-        console.log(marker);
         windows.push(marker);
     }
 
@@ -127,6 +124,11 @@ function FindClosestContainer(position) {
 
     console.log(containerListOfCoord[getKeyByValue(newDic , closestContainer)][0]) ; //Name of that container
     console.log(containerListOfCoord[getKeyByValue(newDic , closestContainer)][1]) ;
+    console.log(containerListOfCoord[getKeyByValue(newDic , closestContainer)][2]) ;
+    document.getElementById("nearest1").innerHTML = containerListOfCoord[getKeyByValue(newDic , closestContainer)][3];
+    document.getElementById("nearest2").innerHTML = "Aleea Ghirodei <-> Spartacus";
+    document.getElementById("nearest3").innerHTML = "Ștrandului <-> Calea Dorobanților";
+
 }
 
 //Here is the Json parser algorithm for aquiring the data for containerListOfCoord
