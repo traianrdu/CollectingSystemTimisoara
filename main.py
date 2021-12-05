@@ -1,9 +1,13 @@
 import json
 import os
+import sys
 
 from dotenv import load_dotenv
-from flask import Flask, render_template, request, redirect, url_for, flash, session
+from flask import Flask, render_template, request, redirect, url_for, flash, session,jsonify
 import bcrypt
+import ssl
+
+ssl._create_default_https_context = ssl._create_unverified_context
 
 from manager.JsonManager import JsonManager
 from manager.db import db_init, db
@@ -150,25 +154,59 @@ def empty():
         if request.method == 'POST':
             nameOfEmptyCan = request.form['name']
             percentOfCan = request.form['percent']
+            latOfCan = request.form['lat']
+            longOfCan = request.form['long']
             percentOfCan ="perc_" + percentOfCan[:len(percentOfCan)-1]
 
             selectContainerFromDB =  Container.query.filter_by(name=nameOfEmptyCan).first()
 
-            percents = ['perc_50' , 'perc_70' , 'perc_100']
+            if selectContainerFromDB:
+                percents = ['perc_50' , 'perc_70' , 'perc_100']
 
-            for i in range(len(percents)):
-                if percents[i] == percentOfCan:
-                    x = i
-                    break
-            if x == 0:
-                selectContainerFromDB.perc_50 = selectContainerFromDB.perc_50 + 1
+                for i in range(len(percents)):
+                    if percents[i] == percentOfCan:
+                        x = i
+                        break
+                if x == 0:
+                    selectContainerFromDB.perc_50 = selectContainerFromDB.perc_50 + 1
+                    db.session.commit()
+                elif x == 1:
+                    selectContainerFromDB.perc_70 = selectContainerFromDB.perc_70 + 1
+                    db.session.commit()
+                elif x == 2:
+                    selectContainerFromDB.perc_100 = selectContainerFromDB.perc_100 + 1
+                    db.session.commit()
+            else:
+                saveInDB = Container(
+                    name=nameOfEmptyCan,
+                    perc_50 = 0, 
+                    perc_70 = 0,
+                    perc_100 = 0,
+                    latit = latOfCan,
+                    long = longOfCan
+                )
+
+                db.session.add(saveInDB)
                 db.session.commit()
-            elif x == 1:
-                selectContainerFromDB.perc_70 = selectContainerFromDB.perc_70 + 1
-                db.session.commit()
-            elif x == 2:
-                selectContainerFromDB.perc_100 = selectContainerFromDB.perc_100 + 1
-                db.session.commit()
+
+                
+                selectContainerFromDB =  Container.query.filter_by(name=nameOfEmptyCan).first()
+
+                percents = ['perc_50' , 'perc_70' , 'perc_100']
+
+                for i in range(len(percents)):
+                    if percents[i] == percentOfCan:
+                        x = i
+                        break
+                if x == 0:
+                    selectContainerFromDB.perc_50 = selectContainerFromDB.perc_50 + 1
+                    db.session.commit()
+                elif x == 1:
+                    selectContainerFromDB.perc_70 = selectContainerFromDB.perc_70 + 1
+                    db.session.commit()
+                elif x == 2:
+                    selectContainerFromDB.perc_100 = selectContainerFromDB.perc_100 + 1
+                    db.session.commit()
 
             print(nameOfEmptyCan + " " + percentOfCan)
     return render_template("home.html")
@@ -176,21 +214,42 @@ def empty():
 
 @app.route("/cityhall")
 def cityhall():
-    session["staff"] = "staff"
+    session["staff"] ="staff"
     if "staff" in session:
-        key = 0
+        key50 = 0
         allAt50 = {}
-        fromDB = Container.query.with_entities(Container.name, Container.perc_50).all()
-        for i in range(len(fromDB)):
-            if int(fromDB[i][1]) >= 10:
-                selectContainer = Container.query.filter_by(name=fromDB[i][0]).first()
-                allAt50[key] = [selectContainer.name, selectContainer.latit, selectContainer.long]
-                print(allAt50[key])
-                key += 1
+        fromDB50 = Container.query.with_entities(Container.name, Container.perc_50).all()
+        for i in range(len(fromDB50)):
+            if int(fromDB50[i][1]) >= 10:
+                selectContainer = Container.query.filter_by(name=fromDB50[i][0]).first()
+                allAt50[key50] = [selectContainer.name,selectContainer.latit,selectContainer.long] 
+                key50+=1
+        
+        key70 = 0
+        allAt70 = {}
+        fromDB70 = Container.query.with_entities(Container.name, Container.perc_70).all()
+        for i in range(len(fromDB70)):
+            if int(fromDB70[i][1] >= 10):
+                selectContainer = Container.query.filter_by(name=fromDB70[i][0]).first()
+                allAt70[key70] = [selectContainer.name, selectContainer.latit, selectContainer.long]
+                key70+=1
+                
 
-        return render_template("cityhallmap.html", env_key=os.getenv("GOOGLE_CLOUD_KEY"), allAt50=allAt50,
-                               numberOf50=key)
+        key100 = 0
+        allAt100 = {}
+        fromDB100 = Container.query.with_entities(Container.name, Container.perc_100).all()
+        for i in range(len(fromDB100)):
+            if int(fromDB100[i][1] >= 10):
+                selectContainer = Container.query.filter_by(name=fromDB100[i][0]).first()
+                allAt100[key100] = [selectContainer.name, selectContainer.latit, selectContainer.long]
+                key100+=1
+                print(key100)
+               
 
+        return render_template("cityhallmap.html",env_key=os.getenv("GOOGLE_CLOUD_KEY"), 
+            allAt50=allAt50, numberOf50=key50, 
+            allAt70=allAt70, numberOf70=key70, 
+            allAt100=allAt100, numberOf100=key100)
 
 @app.route("/get_points", methods=['POST', 'GET'])
 def get_points():

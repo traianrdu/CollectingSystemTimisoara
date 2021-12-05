@@ -25,6 +25,9 @@ function makeMap(containerMap) {
 function setMarkers(map, containerMap) {
 
     const windows = [];
+    const names = [];
+    const latits = [];
+    const longs = [];
     for (const cont in containerMap) {
         var simple_url = "http://labs.google.com/ridefinder/images/" +  "mm_20_green.png";
         if (containerMap[cont][2] === "sticlă")
@@ -48,8 +51,15 @@ function setMarkers(map, containerMap) {
             },
             title: containerMap[cont][3],
             });
+        
         windows.push(marker);
+        names.push(containerMap[cont][3])
+        latits.push(containerMap[cont][1])
+        longs.push(containerMap[cont][0])
     }
+
+
+
 
     for(let i=0;i<windows.length;i++)
       {
@@ -69,6 +79,9 @@ function setMarkers(map, containerMap) {
 
             document.getElementById("emptyContainerPres").innerHTML = point.title + " is empty: "
             document.getElementById("emptyContainer").innerHTML = point.title
+            document.getElementById("emptyContainerLat").innerHTML = latits[i]
+            document.getElementById("emptyContainerLong").innerHTML = longs[i]
+
 
           });
       }
