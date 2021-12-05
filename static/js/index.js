@@ -25,6 +25,15 @@ function makeMap(containerMap) {
 function setMarkers(map, containerMap) {
 
     const windows = [];
+    let marker = new google.maps.Marker({
+            position: { lat: currentLat, lng: currentLong },
+            map,
+            icon: {
+                url: "http://labs.google.com/ridefinder/images/mm_20_blue.png"
+            },
+            title: "Your location",
+            });
+        windows.push(marker);
     for (const cont in containerMap) {
         var simple_url = "http://labs.google.com/ridefinder/images/" +  "mm_20_green.png";
         if (containerMap[cont][2] === "sticlă")
@@ -40,7 +49,7 @@ function setMarkers(map, containerMap) {
         else
             simple_url = "http://labs.google.com/ridefinder/images/" +  "mm_20_green.png";
 
-        const marker = new google.maps.Marker({
+        marker = new google.maps.Marker({
             position: { lat: containerMap[cont][1], lng: containerMap[cont][0] },
             map,
             icon: {
@@ -76,7 +85,8 @@ function setMarkers(map, containerMap) {
 }
 
 function calculateDistance( ContainerPosX, ContainerPosY, CurrentPosX1,  CurrentPosY1){
-    let a = ((ContainerPosX-CurrentPosX1)*(ContainerPosX-CurrentPosX1) + (ContainerPosY-CurrentPosY1)*(ContainerPosY-CurrentPosY1))*(1/2);
+    let a = Math.sqrt((ContainerPosX-CurrentPosX1)*(ContainerPosX-CurrentPosX1) + (ContainerPosY-CurrentPosY1)*(ContainerPosY-CurrentPosY1));
+    console.log(a);
     return a;
 
 }
@@ -108,24 +118,34 @@ function FindClosestContainer(position) {
     for (const Container in containerListOfCoord) {
         NameOfContainerAndDistance.push({
             key:   Container,
-            value: calculateDistance(containerListOfCoord[Container][0] ,  containerListOfCoord[Container][1] , CurrentPosX ,CurrentPosY),
+            value: calculateDistance(containerListOfCoord[Container][1] ,  containerListOfCoord[Container][0] , currentLat ,currentLong),
         });
     }
 
+    let newDic = {};
+    let min = Object.values(NameOfContainerAndDistance[0])[1];
+    newDic[Object.values(NameOfContainerAndDistance[0])[0]] = Object.values(NameOfContainerAndDistance[0])[1];
+    for (var i=1; i < NameOfContainerAndDistance.length; i++) {
+        newDic[Object.values(NameOfContainerAndDistance[i])[0]] = Object.values(NameOfContainerAndDistance[i])[1];
+        if (Object.values(NameOfContainerAndDistance[i])[1] < min)
+            min = Object.values(NameOfContainerAndDistance[i])[1];
+    }
+    /*
     let HoldValues = [];
     let newDic = {};
     for(let i = 0; i < NameOfContainerAndDistance.length; i++)
     {
         HoldValues.push(Object.values(NameOfContainerAndDistance[i])[1]);
         newDic[Object.values(NameOfContainerAndDistance[i])[0]] = Object.values(NameOfContainerAndDistance[i])[1];
-    }
+    }*/
 
-    let closestContainer = Math.min.apply(Math,HoldValues); //distance from user position to closest container
+    //let closestContainer = Math.min.apply(Math,HoldValues); //distance from user position to closest container
 
-    console.log(containerListOfCoord[getKeyByValue(newDic , closestContainer)][0]) ; //Name of that container
-    console.log(containerListOfCoord[getKeyByValue(newDic , closestContainer)][1]) ;
-    console.log(containerListOfCoord[getKeyByValue(newDic , closestContainer)][2]) ;
-    document.getElementById("nearest1").innerHTML = containerListOfCoord[getKeyByValue(newDic , closestContainer)][3];
+    console.log(containerListOfCoord[getKeyByValue(newDic , min)][0]) ; //Name of that container
+    console.log(containerListOfCoord[getKeyByValue(newDic , min)][1]) ;
+    console.log(containerListOfCoord[getKeyByValue(newDic , min)][2]) ;
+    console.log(min);
+    document.getElementById("nearest1").innerHTML = containerListOfCoord[getKeyByValue(newDic , min)][3];
     document.getElementById("nearest2").innerHTML = "Aleea Ghirodei <-> Spartacus";
     document.getElementById("nearest3").innerHTML = "Ștrandului <-> Calea Dorobanților";
 
