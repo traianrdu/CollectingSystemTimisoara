@@ -52,23 +52,38 @@
 
     </div>
 
+    <p id="setStyle" style="display: none;">{{styleOf}}</p>
+    <p id="setStyleM" style="display: none;">{{styleM}}</p>
+
     <h3 style="margin-top:5%">Empty</h3>
-    <div>
-    <div id="EMPTY">
-        <p>Select on the map if a container is empty.</p>
-        <p id="emptyContainerPres">none</p>
-        <p  id="emptyContainer" style="display: none"></p>
-        <p  id="emptyContainerLat" style="display: none"></p>
-        <p  id="emptyContainerLong" style="display: none"></p>
 
-        <button onclick="empty('percent1')" > <p id="percent1">50%</p> </button>
-        <button onclick="empty('percent2')" > <p id="percent2">70%</p> </button>
-        <button onclick="empty('percent3')" > <p id="percent3">100%</p> </button>
+    <div style="display:block" id="EmptyDiv">
+        <div id="EMPTY">
+            <p>Select on the map if a container is empty.</p>
+            <p id="emptyContainerPres">none</p>
+            <p  id="emptyContainer" style="display: none"></p>
+            <p  id="emptyContainerLat" style="display: none"></p>
+            <p  id="emptyContainerLong" style="display: none"></p>
+
+            <button onclick="empty('percent1')" > <p id="percent1">50%</p> </button>
+            <button onclick="empty('percent2')" > <p id="percent2">70%</p> </button>
+            <button onclick="empty('percent3')" > <p id="percent3">100%</p> </button>
+        </div>
+
+        <div id="FEEDBACK" style="display: none;">
+            <p>Thank you for your feedback!</p>
+        </div>
     </div>
 
-    <div id="FEEDBACK" style="display: none;">
-        <p>Thank you for your feedback!</p>
-    </div>
+    <p id="messageToSignIn" style="display:none">In order to give feedback you need to sigin/signup on the page!</p>
+
+    <script>
+        x=document.getElementById("setStyle").innerHTML
+        document.getElementById("EmptyDiv").style.display = x;
+
+        y=document.getElementById("setStyleM").innerHTML
+        document.getElementById("messageToSignIn").style.display = y;
+    </script>
 
     <script>
         /*function nearest() {
