@@ -6,9 +6,8 @@
 
     <div class="introduction">
         <div class="title">
-            <img src="{{url_for('static', filename='style/photos/First.png')}}" alt="Recycle image" class="recycle">
-            <br><br>
-            <img src="{{url_for('static', filename='style/photos/title.png')}}" alt="Recycle image" class="recycle">
+            <img src="{{url_for('static', filename='style/photos/recycle.webp')}}" alt="Recycle image" class="recycle">
+            <h2 class="titleH2">uCycle</h2>
         </div>
 
         <div class="navbar">
@@ -52,24 +51,40 @@
 
     </div>
 
+    <p id="setStyle" style="display: none;">{{styleOf}}</p>
+    <p id="setStyleM" style="display: none;">{{styleM}}</p>
+
     <h3 style="margin-top:5%">Empty</h3>
-    <div>
-    <div id="EMPTY">
-        <p>Select on the map if a container is empty.</p>
-        <p id="emptyContainerPres">none</p>
-        <p  id="emptyContainer" style="display: none"></p>
-        <p  id="emptyContainerLat" style="display: none"></p>
-        <p  id="emptyContainerLong" style="display: none"></p>
-
-        <button onclick="empty('percent1')" > <p id="percent1">50%</p> </button>
-        <button onclick="empty('percent2')" > <p id="percent2">70%</p> </button>
-        <button onclick="empty('percent3')" > <p id="percent3">100%</p> </button>
+    
+    <div style="display:block" id="EmptyDiv">
+        
+  
+        <div id="EMPTY">
+            <p>Select on the map if a container is empty.</p>
+            <p id="emptyContainerPres">none</p>
+            <p  id="emptyContainer" style="display: none"></p>
+            <p  id="emptyContainerLat" style="display: none"></p>
+            <p  id="emptyContainerLong" style="display: none"></p>
+    
+            <button onclick="empty('percent1')" > <p id="percent1">50%</p> </button>
+            <button onclick="empty('percent2')" > <p id="percent2">70%</p> </button>
+            <button onclick="empty('percent3')" > <p id="percent3">100%</p> </button>
+        </div>
+    
+        <div id="FEEDBACK" style="display: none;">
+            <p>Thank you for your feedback!</p>
+        </div>
     </div>
 
-    <div id="FEEDBACK" style="display: none;">
-        <p>Thank you for your feedback!</p>
-    </div>
+    <p id="messageToSignIn" style="display:none">In order to give feedback you need to sigin/signup on the page!</p>
 
+    <script>
+        x=document.getElementById("setStyle").innerHTML
+        document.getElementById("EmptyDiv").style.display = x;
+
+        y=document.getElementById("setStyleM").innerHTML
+        document.getElementById("messageToSignIn").style.display = y;
+    </script>
     <script>
         /*function nearest() {
 
@@ -144,16 +159,5 @@
         <br><br>
     </div>
 
-    <br><br>
-
-    <div class="team">
-        <h3 style="color: #2d357d">Team</h3>
-        <p style="color: #2d357d"><b>Cristian:</b> Design, Logo, Map Design</p>
-        <p style="color: #2d357d"><b>Iulian:</b> Backend, Frontend, Javascript Interactions</p>
-        <p style="color: #2d357d"><b>Ovidiu:</b> Location Algorithms, UI/UX</p>
-        <p style="color: #2d357d"><b>Paul:</b> Documentation, UI/UX</p>
-        <p style="color: #2d357d"><b>Traian:</b> Backend, Frontend, Javascript Interactions</p>
-        <img src="{{url_for('static', filename='style/photos/black-first.png')}}" alt="Recycle image" class="recycle">
-    </div>
     <br><br>
 {% endblock %}

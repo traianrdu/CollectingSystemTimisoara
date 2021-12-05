@@ -31,10 +31,11 @@ def home():
     json_data = get_points()
     # User session for feed back, the 0 and 1 will be replaced
     if "userInSession" in session:
-        1
+        style="block"
+        styleM = "none"
     else:
-        0
-
+        style="none"
+        styleM="block"
     if request.method == "POST":
         name = request.form['name']
         mail = request.form['email']
@@ -50,7 +51,7 @@ def home():
         db.session.add(saveInDB)
         db.session.commit()
 
-    return render_template("home.html", env_key=os.getenv("GOOGLE_CLOUD_KEY"), json_data=json_data)
+    return render_template("home.html", env_key=os.getenv("GOOGLE_CLOUD_KEY"), json_data=json_data, styleOf=style, styleM=styleM)
 
 
 @app.route("/contact", methods=['POST', 'GET'])
@@ -131,6 +132,7 @@ def signin():
             if bcrypt.checkpw(password.encode('utf-8'), selectUserFromDB.password):
                 session["userInSession"] = username
                 message = "Now you are signed in!"
+                session.permanent = True
             else:
                 message = "Password incorrect!"
 
@@ -150,7 +152,9 @@ def signout():
 
 @app.route("/emptyCont" , methods=['POST','GET'])
 def empty():
+    style = 1
     if 'userInSession' in session:
+        
         if request.method == 'POST':
             nameOfEmptyCan = request.form['name']
             percentOfCan = request.form['percent']
@@ -206,9 +210,8 @@ def empty():
                     db.session.commit()
                 elif x == 2:
                     selectContainerFromDB.perc_100 = selectContainerFromDB.perc_100 + 1
-                    db.session.commit()
-
-            print(nameOfEmptyCan + " " + percentOfCan)
+                    db.session.commit() 
+        
     return render_template("home.html")
 
 
