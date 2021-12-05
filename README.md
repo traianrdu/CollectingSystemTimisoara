@@ -2,9 +2,9 @@
 
 UCycle
 
-First thing first, we want to introduce you a new concept of collecting and recycling. This concept is about feedback of the collecting points in order to see when it's the time to empty the bins.
+We want to introduce you a new concept of collecting and recycling. This concept is about feedback of the collecting points in order to see when it's the time to empty the bins.
 
-Also we would like to present some cool features like the map with the collecting points on it and the percentage of the collecting bin is used. 
+Also, we would like to present some cool features like the map with the collecting points on it and the percentage of the collecting bin is used. 
 Another feature is the number of emptying/month on a bin in order to increase the density of collecting points in that area.
 
 The tools used for developing this app were JavaScript,HTML,CSS,Python, Google Cloud and Github.
