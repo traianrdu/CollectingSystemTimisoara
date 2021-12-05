@@ -3,11 +3,10 @@ var currentLat = 45.713187;
 var currentLong = 21.27952;
 var counter = 0;
 
-
 function initMap() {
     getLocation(div);
     let containerMap = JsonParser();
-    var delayInMilliseconds = 1000; //1 second
+    var delayInMilliseconds = 100; //1 second
 
     setTimeout(function() {
         makeMap(containerMap);
@@ -23,48 +22,37 @@ function makeMap(containerMap) {
     setMarkers(map, containerMap);
 }
 
-
-const containers = [
-    ["punct1", 45.755312, 21.228491, "mm_20_green.png"],
-    ["punct2", 45.713187, 21.27952, "mm_20_brown.png"],
-  ];
-
-
-
 function setMarkers(map, containerMap) {
 
     const windows = [];
     console.log("abbc");
     for (const cont in containerMap) {
         console.log(containerMap[cont][1]);
+        var simple_url = "http://labs.google.com/ridefinder/images/" +  "mm_20_green.png";
+        if (containerMap[cont][2] === "sticlă")
+            simple_url = "http://labs.google.com/ridefinder/images/" +  "mm_20_green.png";
+        else if (containerMap[cont][2] === "haine")
+            simple_url = "http://labs.google.com/ridefinder/images/" +  "mm_20_red.png";
+        else if (containerMap[cont][2] === "ulei utilizat")
+            simple_url = "http://labs.google.com/ridefinder/images/" +  "mm_20_orange.png";
+        else if (containerMap[cont][2] === "baterii")
+            simple_url = "http://labs.google.com/ridefinder/images/" +  "mm_20_brown.png";
+        else if (containerMap[cont][2] === "deșeuri voluminoase")
+            simple_url = "http://labs.google.com/ridefinder/images/" +  "mm_20_black.png";
+        else
+            simple_url = "http://labs.google.com/ridefinder/images/" +  "mm_20_green.png";
+
         const marker = new google.maps.Marker({
             position: { lat: containerMap[cont][1], lng: containerMap[cont][0] },
             map,
             icon: {
-                url: "http://labs.google.com/ridefinder/images/" +  "mm_20_green.png"
+                url: simple_url
             },
             title: containerMap[cont][3],
             });
         console.log(marker);
         windows.push(marker);
     }
-
-    /*
-    for (let i = 0; i < counter; i++) {
-        const container = containerMap[i];
-
-        console.log("abbc");
-
-        const marker = new google.maps.Marker({
-            position: { lat: container[0], lng: container[1] },
-            map,
-            icon: {
-                url: "http://labs.google.com/ridefinder/images/" +  "mm_20_green.png"
-            },
-            title: container[3],
-            });
-        windows.push(marker);
-    }*/
 
     for(let i=0;i<windows.length;i++)
       {
