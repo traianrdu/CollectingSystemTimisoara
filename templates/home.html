@@ -17,7 +17,6 @@
 
         </div>
     </div>
-
     <div class="moto">
         <h1>Recycle the present
             <br>save the future</h1>
@@ -56,7 +55,9 @@
     <div id="EMPTY">
         <p>Select on the map if a container is empty.</p>
         <p id="emptyContainerPres">none</p>
-        <p style="display: none;" id="emptyContainer"></p>
+        <p  id="emptyContainer"></p>
+        <p  id="emptyContainerLat"></p> 
+        <p  id="emptyContainerLong"></p>
 
         <button onclick="empty('percent1')" > <p id="percent1">50%</p> </button>
         <button onclick="empty('percent2')" > <p id="percent2">70%</p> </button>
@@ -101,15 +102,19 @@
         function empty(val)
         {
             x = document.getElementById("emptyContainer").innerHTML
+            a = document.getElementById("emptyContainerLat").innerHTML
+            b = document.getElementById("emptyContainerLong").innerHTML
             y = document.getElementById(val).innerHTML
             console.log(x + " " + y);
-            $.post("/emptyCont", {"name":x, "percent":y})
+            $.post("/emptyCont", {"name":x, "percent":y, "lat":a, "long":b})
 
             document.getElementById("EMPTY").style = "display:none;"
             document.getElementById("FEEDBACK").style = "display:block;"
 
 
         }
+
+        
     </script>
     </div>
     <h3 style="margin-top:5%">Empty</h3>
